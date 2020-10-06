@@ -24,14 +24,15 @@ app.get("/ytBase", async (req, res) => {
 					let text = (await (await fetch(url)).text());
 					if (text.includes("var a=new VZ(this.G,this);")) {
 							text = text.replace("var a=new VZ(this.G,this);", "var a=new VZ(this.G,this);window.quals = a;");
-							(new Script({
-									url: url,
-									script: text
-							})).save();
-							res.type("text/javascript");
-							res.send(text);
-							return;
+					} else if (text.includes("a=new VZ(this.G,this),")) {
+							text = text.replace("a=new VZ(this.G,this)","a=new VZ(this.G,this),window.quals=a");
 					}
+					(new Script({
+							url: url,
+							script: text
+					})).save();
+					res.type("text/javascript");
+					res.send(text);
 					throw new Error();
 			} catch(e) {
 					res.status(404);

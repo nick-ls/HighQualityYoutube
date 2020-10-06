@@ -6,7 +6,12 @@ function init() {
 	setQuality();
 }
 function setQuality() {
-	let availableQualities = Object.keys(quals.options);
+	let availableQualities;
+	if (typeof quals.options[0] === "string") {
+		availableQualities = Object.keys(quals.options);
+	} else {
+		availableQualities = quals.G.getAvailableQualityLevels();
+	}
 	let quality = getHighestQuality(availableQualities, maxQuality);
 	quals.G.setPlaybackQuality(quality);
 }
