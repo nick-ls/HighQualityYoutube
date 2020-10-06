@@ -26,7 +26,8 @@ async function _getHighestQuality(maxQuality) {
 		for (let i = 0; i < availableQualities.length; i++) {
 			if (availableQualities[i].includes(qualities[qual])) {
 				document.styleSheets[0].deleteRule(0);
-				return qualityList[i].click();
+				qualityList[i].click();
+				return (await _waitForSelector(".ytp-panel-header > button.ytp-panel-title", "Quality")).click();
 			}
 		}
 		qual++;
