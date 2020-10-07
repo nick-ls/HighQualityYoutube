@@ -4,14 +4,15 @@ function init() {
 	let mo = new MutationObserver(setQuality);
 	mo.observe(document.querySelector("div.ytp-spinner"), {attributes: true});
 	setQuality();
+	setInterval(()=>{
+		let highest = getHighestQuality(quals.G.getAvailableQualityLevels(), maxQuality);
+		if (quals.G.getPlaybackQuality() !== highest) {
+			setQuality(highest);
+		}		
+	},5000)
 }
 function setQuality() {
-	let availableQualities;
-	if (typeof quals.options[0] === "string") {
-		availableQualities = Object.keys(quals.options);
-	} else {
-		availableQualities = quals.G.getAvailableQualityLevels();
-	}
+	let availableQualities = quals.G.getAvailableQualityLevels();
 	let quality = getHighestQuality(availableQualities, maxQuality);
 	quals.G.setPlaybackQuality(quality);
 }
