@@ -1,14 +1,7 @@
 const express = require("express");
 const fetch = require("node-fetch");
-const mongoose = require("mongoose");
 const app = express();
-const Script = mongoose.model("Script", {url: String, script: String});
 const PORT = 1235
-
-const db = mongoose.connect("mongodb://localhost:27017/ytcache", {
-		useNewUrlParser: true,
-		useUnifiedTopology: true
-});
 
 app.get("/ytBase", async (req, res) => {
 	if (!req.query.url) return res.status(404).send();
@@ -27,10 +20,6 @@ app.get("/ytBase", async (req, res) => {
 			} else if (text.includes("a=new VZ(this.G,this),")) {
 				text = text.replace("a=new VZ(this.G,this)","a=new VZ(this.G,this),window.quals=a");
 			}
-			(new Script({
-				url: url,
-				script: text
-			})).save();
 			res.type("text/javascript");
 			res.send(text);
 			throw new Error();
