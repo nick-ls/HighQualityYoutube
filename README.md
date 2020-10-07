@@ -1,8 +1,10 @@
 # HighQualityYoutube
-This userscript forces Youtube to always play videos at their highest available quality.
+This userscript forces YouTube to always play videos at their highest available quality. Recently, I noticed that YouTube was playing all of my videos at 480p when higher definition streams were available. This is why I created this extension that, when coupled with a server that edits the player's base.js, sets the video quality to the maximum available without user interaction. 
 ___
-### As A Userscript
-Recently, I noticed that Youtube was playing all of my videos at 480p when higher definition streams were available. This is why I created this userscript that executes a series of clicks in order to change the quality of the video without user interaction. This script can be added through a userscript manager such as Tampermonkey or Greasemonkey. In order to do so, look up how to install a userscript from a raw url for your extension of choice; then use this link: `https://raw.githubusercontent.com/Nicholas264/HighQualityYoutube/master/userscript.js`
-___
-### As A Chrome Extension
+
+### Installing the Chrome Extension
 In order to use this as a Chrome extension, download the `.zip` file from the current version's release, and extract it to your directory of choice. Next, go to `chrome://extensions`, enable developer mode, and click `Load unpacked`. From there you can select the directory where you extracted the files. If you ever move them to a different location, you will need to load the unpacked extension again from the new directory.
+
+---
+### Running a server
+You will need a dedicated server or something like https://www.heroku.com/ to host the server remotely. Once you have the files extracted to your destination folder. Install node.js if you haven't already, and run `npm install` to install the dependencies. Once the dependencies are installed, run `node ./server/server.js` to start the server. If you do not have mongodb installed and you do not want to install it, you can run the mongodb-less version of the server using `node ./server/server-nomongo.js`. The mongodb version caches the files in a database to avoid excess pings to YouTube's servers, so if you are planning on hosting a server that services multiple users, you will probably want to use the `server.js` that has mongodb support. Once your server is running, replace the `SERVER_HOST` constant in `editBase.js` with the domain name you are running your server at. You will also need to use Nginx or Apache to route requests to your server, but that is a rather lengthy topic so I will leave it up to you to search how to set up a reverse proxy for your choice of server and OS. Once all of these things are done, you should now be able to stream all of your videos in glorious high definition without lifting a finger (if you disregard the work done to get to this point).
